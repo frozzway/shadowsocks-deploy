@@ -1,0 +1,9 @@
+version: "3.3"
+services:
+  shadowsocks:
+    container_name: shadowsocks_container
+    image: teddysun/shadowsocks-rust
+    network_mode: host
+    restart: always
+    volumes:
+      - ./shadowsocks/config.json:/etc/shadowsocks-rust/config.json/:rw

@@ -1,0 +1,8 @@
+- hosts: remote
+  name: Предварительная настройка сервера
+  remote_user: "{{ user }}"
+
+  roles:
+    - setup
+    - ansible-role-docker-master
+

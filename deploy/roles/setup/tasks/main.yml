@@ -1,0 +1,19 @@
+- name: Updating and upgrading apt packages
+  become: true
+  apt:
+    upgrade: yes
+    update_cache: yes
+    cache_valid_time: 86400 #One day
+
+- name: Installing python
+  become: true
+  apt:
+    name: python3
+    name: python3-pip
+    
+    
+ - name: Install Docker SDK for Python
+  ansible.builtin.pip:
+    name: 
+      - "docker==6.1.3"
+      - "docker-compose"

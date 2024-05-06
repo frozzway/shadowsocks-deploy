@@ -1,5 +1,7 @@
 user: root
 proxy_password: ihjbsSGBhnsdgfsldf3562sgbHYxnxnsVBvbb67713
 method: chacha20-ietf-poly1305
-local_port: 9000
+local_port: 55962
 fast_open: true
+wg_configs_directory: /home/alex/Documents/wg-configs
+wg_peers_amount: 5

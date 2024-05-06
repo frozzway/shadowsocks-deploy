@@ -5,14 +5,30 @@
     update_cache: yes
     cache_valid_time: 86400 #One day
 
-- name: Installing python
+- name: Installing software-properties-common package
   become: true
   apt:
-    name: python3
+    name: software-properties-common
+
+- name: Updating apt packages
+  become: true
+  apt:
+    update_cache: yes
+
+- name: Installing python3.8 package
+  become: true
+  apt:
+    name: python3.8
+
+- name: Installing python pip package
+  become: true
+  apt:
     name: python3-pip
     
     
- - name: Install Docker SDK for Python
+- name: Install Docker SDK for Python
+  vars:
+      ansible_python_interpreter: /usr/bin/python3.8
   ansible.builtin.pip:
     name: 
       - "docker==6.1.3"

@@ -1,26 +1,47 @@
 - name: Copying local files
   ansible.builtin.copy:
     src: "docker"
-    dest: "~/shadowsocks_config"
+    dest: "~/configs"
+
+
+- name: Creating directory for wireguard peers configs
+  ansible.builtin.file:
+    path: "~/configs/wg-configs"
+    state: directory
+    mode: '0755'
+
+
+- name: Setting docker-compose file
+  template:
+    src: "docker-compose.yml.j2"
+    dest: "~/configs/docker/docker-compose.yml"
 
 
 - name: Setting config.json file
   template:
     src: "shadowsocks-config.j2"
-    dest: "~/shadowsocks_config/docker/shadowsocks/config.json"
+    dest: "~/configs/docker/shadowsocks/config.json"
 
 
-- name: Building shadowsocks service
+- name: Building shadowsocks & wireguard services
   docker_compose:
-    project_src: "~/shadowsocks_config/docker"
+    project_src: "~/configs/docker"
     build: yes
-    services: "shadowsocks"
+    services: ["shadowsocks", "wireguard"]
   register: output
 
 
 - name: Restarting shadowsocks service
   docker_compose:
-    project_src: "~/shadowsocks_config/docker"
+    project_src: "~/configs/docker"
     restarted: yes
     services: "shadowsocks"
   register: output
+
+
+- name: Copy wireguard peers configs to control node machine
+  ansible.posix.synchronize:
+    src: "~/configs/wg-configs/"
+    dest: "{{ wg_configs_directory }}"
+    mode: "pull"
+    recursive: yes

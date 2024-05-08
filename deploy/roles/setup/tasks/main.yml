@@ -10,6 +10,11 @@
   apt:
     name: software-properties-common
 
+- name: Add deadsnakes repository into sources list
+  apt_repository:
+    repo: ppa:deadsnakes/ppa
+    state: present
+
 - name: Updating apt packages
   become: true
   apt:

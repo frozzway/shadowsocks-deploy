@@ -25,15 +25,17 @@
   apt:
     name: python3.8
 
-- name: Installing python pip package
-  become: true
-  apt:
-    name: python3-pip
-    
+- name: Copy get-pip.py file
+  ansible.builtin.copy:
+    src: "get-pip.py"
+    dest: "~/get-pip.py"
+
+- name: Install pip
+  command: "/usr/bin/python3.8 ~/get-pip.py"
     
 - name: Install Docker SDK for Python
   vars:
-      ansible_python_interpreter: /usr/bin/python3.8
+    ansible_python_interpreter: /usr/bin/python3.8
   ansible.builtin.pip:
     name: 
       - "docker==6.1.3"
